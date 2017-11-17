@@ -172,3 +172,14 @@
 		end
 		return true
 	end
+
+--
+-- Define a new option.
+--
+-- @param opt
+--    The new option object.
+--
+
+	function newoption(opt)
+		m.add(opt)
+	end

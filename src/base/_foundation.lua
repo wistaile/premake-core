@@ -432,3 +432,34 @@
 		local sMajor, sMinor, sPatch, sPrereleaseAndBuild = version:match("^(%d+)%.?(%d*)%.?(%d*)(.-)$")
 		return (type(sMajor) == 'string')
 	end
+
+
+---
+-- convert any kind of value to a lua parsable string.
+---
+
+	function premake.valueToCode(value)
+		if type(value) == 'string' then
+			return "'" .. value:gsub("'", "\\'") .. "'"
+		end
+
+		if type(value) == 'number' then
+			return '(' .. tostring(value) .. ')'
+		end
+
+		if type(value) == 'table' then
+			local values = {}
+			local n = #value
+			for i = 1, n do
+				table.insert(values, premake.valueToCode(value[i]))
+			end
+
+			return '{ ' .. table.concat(values, ', ') .. ' }'
+		end
+
+		if type(value) == 'nil' then
+			return '()'
+		end
+			
+		return "<" .. type(value) .. ">"
+	end

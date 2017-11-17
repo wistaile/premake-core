@@ -172,18 +172,6 @@
 ---
 
 	function m.prepareAction()
-		-- The "next-gen" actions have now replaced their deprecated counterparts.
-		-- Provide a warning for a little while before I remove them entirely.
-		if _ACTION and _ACTION:endswith("ng") then
-			p.warnOnce(_ACTION, "'%s' has been deprecated; use '%s' instead", _ACTION, _ACTION:sub(1, -3))
-		end
-		p.action.set(_ACTION)
-
-		-- Allow the action to initialize stuff.
-		local action = p.action.current()
-		if action then
-			p.action.initialize(action.trigger)
-		end
 	end
 
 
@@ -260,9 +248,6 @@
 ---
 
 	function m.preBake()
-		if p.action.isConfigurable() then
-			print("Building configurations...")
-		end
 	end
 
 
@@ -271,9 +256,6 @@
 ---
 
 	function m.bake()
-		if p.action.isConfigurable() then
-			p.oven.bake()
-		end
 	end
 
 
@@ -283,24 +265,6 @@
 ---
 
 	function m.postBake()
-		local function shouldLoad(func)
-			for wks in p.global.eachWorkspace() do
-				for prj in p.workspace.eachproject(wks) do
-					for cfg in p.project.eachconfig(prj) do
-						if func(cfg) then
-							return true
-						end
-					end
-				end
-			end
-		end
-
-		-- any modules need to load to support this project?
-		for module, func in pairs(m._preloaded) do
-			if not package.loaded[module] and shouldLoad(func) then
-				require(module)
-			end
-		end
 	end
 
 
@@ -309,9 +273,6 @@
 ---
 
 	function m.validate()
-		if p.action.isConfigurable() then
-			p.container.validate(p.api.rootContainer())
-		end
 	end
 
 
@@ -321,8 +282,6 @@
 ---
 
 	function m.preAction()
-		local action = p.action.current()
-		printf("Running action '%s'...", action.trigger)
 	end
 
 
@@ -331,8 +290,6 @@
 ---
 
 	function m.callAction()
-		local action = p.action.current()
-		p.action.call(action.trigger)
 	end
 
 
@@ -341,12 +298,7 @@
 ---
 
 	function m.postAction()
-		if p.action.isConfigurable() then
-			local duration = math.floor((os.clock() - startTime) * 1000);
-			printf("Done (%dms).", duration)
-		end
 	end
-
 
 
 --
