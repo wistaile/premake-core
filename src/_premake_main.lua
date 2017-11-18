@@ -172,6 +172,7 @@
 ---
 
 	function m.prepareAction()
+		_ACTION = ""
 	end
 
 
@@ -229,16 +230,16 @@
 				os.exit(1)
 			end
 
-			local action = p.action.current()
-			if not action then
-				print("Error: no such action '" .. _ACTION .. "'")
-				os.exit(1)
-			end
-
-			if p.action.isConfigurable() and not os.isfile(_MAIN_SCRIPT) then
-				print(string.format("No Premake script (%s) found!", path.getname(_MAIN_SCRIPT)))
-				os.exit(1)
-			end
+			--local action = p.action.current()
+			--if not action then
+			--	print("Error: no such action '" .. _ACTION .. "'")
+			--	os.exit(1)
+			--end
+			--
+			--if p.action.isConfigurable() and not os.isfile(_MAIN_SCRIPT) then
+			--	print(string.format("No Premake script (%s) found!", path.getname(_MAIN_SCRIPT)))
+			--	os.exit(1)
+			--end
 		end
 	end
 

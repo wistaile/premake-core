@@ -454,6 +454,12 @@
 				table.insert(values, premake.valueToCode(value[i]))
 			end
 
+			for key, val in pairs(value) do
+				if type(key) ~= 'number' then
+					table.insert(values, "[" .. premake.valueToCode(key) .. "] = " .. premake.valueToCode(val))
+				end
+			end
+
 			return '{ ' .. table.concat(values, ', ') .. ' }'
 		end
 
