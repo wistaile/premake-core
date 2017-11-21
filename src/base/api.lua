@@ -19,13 +19,17 @@
 			error("name '" .. name .. "' in use", 2)
 		end
 
+		api.n_register(field)
+
 		_G[name] = function(value)
 			printf("    %s %s", name, p.valueToCode(value))
+			api.n_add(name, value)
 		end
 
 		-- TODO, not all fields get a 'remove' variant.
 		_G["remove" .. name] = function(value)
 			printf("    remove%s %s", name, p.valueToCode(value))
+			api.n_remove(name, value)
 		end
 
 		return field
@@ -49,3 +53,5 @@
 
 	function api.deprecations(value)
 	end
+
+	p.n_initNativeApi()

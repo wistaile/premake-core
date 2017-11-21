@@ -6,6 +6,9 @@
 
 #include "premake.h"
 
+
+void initNative(lua_State*);
+
 int main(int argc, const char** argv)
 {
 	lua_State* L;
@@ -16,6 +19,9 @@ int main(int argc, const char** argv)
 
 	z = premake_init(L);
 	if (z == OKAY) {
+		// HAX: call native init
+		initNative(L);
+
 		z = premake_execute(L, argc, argv, "src/_premake_main.lua");
 	}
 

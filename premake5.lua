@@ -142,7 +142,7 @@
 		files
 		{
 			"*.txt", "**.lua",
-			"src/**.h", "src/**.c",
+			"src/**.h", "src/**.c", "src/**.cpp",
 			"modules/**"
 		}
 
